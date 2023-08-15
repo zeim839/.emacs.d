@@ -1,0 +1,7 @@
+.cache
+auto-save-list
+elpa
+transient
+multi-compile.cache
+org-clock-save.el
+org-roam.db
