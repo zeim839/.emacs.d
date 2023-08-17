@@ -5,3 +5,4 @@ transient
 multi-compile.cache
 org-clock-save.el
 org-roam.db
+.DS_Store
