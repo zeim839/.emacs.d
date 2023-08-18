@@ -175,6 +175,11 @@
 	       ("go-build-local" "go build -v")
 	       ("go-build-global" "go build -v"
                 (locate-dominating-file buffer-file-name ".git"))
+	       ("go-static-check" "~/go/bin/staticcheck ./..."
+		(locate-dominating-file buffer-file-name ".git"))
+	       ("go-vet-local" "go vet")
+	       ("go-vet-global" "go vet ./..."
+		(locate-dominating-file buffer-file-name ".git"))
 	       ("go-build-and-run" "go build -v && echo 'build finish' && eval ./${PWD##*/}"
                 (multi-compile-locate-file-dir ".git"))))
      (js2-mode .
