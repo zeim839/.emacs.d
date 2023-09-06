@@ -180,6 +180,8 @@
 	       ("go-vet-local" "go vet")
 	       ("go-vet-global" "go vet ./..."
 		(locate-dominating-file buffer-file-name ".git"))
+	       ("go-test-lint" "~/go/bin/golint ./..."
+		(locate-dominating-file buffer-file-name ".git"))
 	       ("go-build-and-run" "go build -v && echo 'build finish' && eval ./${PWD##*/}"
                 (multi-compile-locate-file-dir ".git"))))
      (js2-mode .
@@ -192,13 +194,30 @@
 		("js-lint" "npm run lint"
 		 (locate-dominating-file buffer-file-name ".git"))
 		("js-fix" "npm run fix"
-		 (locate-dominating-file buffer-file-name ".git")))))))
+		 (locate-dominating-file buffer-file-name ".git"))))
+     (c-mode .
+	     (("sh-configure" "./configure"
+	       (locate-dominating-file buffer-file-name "configure"))
+	      ("make-default" "make"
+	       (locate-dominating-file buffer-file-name "Makefile"))
+	      ("make-install" "make install"
+	       (locate-dominating-file buffer-file-name "Makefile"))
+	      ("sh-transfer" "sshpass -p reptilian scp -P 3022 -r /Volumes/LINUX/reptilian-kernel reptilian@localhost:/usr/rep/src/reptilian-kernel"
+	       (locate-dominating-file buffer-file-name ".gitignore")))))))
 
 ;; C++
 (use-package c++-mode
   :hook
   (c++-mode . flyspell-prog-mode)
   (c++-mode . auto-fill-mode))
+
+;; C
+(use-package c-mode
+  :custom
+  (c-default-style '((other . "linux")))
+  :hook
+  (c-mode . flyspell-prog-mode)
+  (c-mode . auto-fill-mode))
 
 ;; Golang
 (use-package go-mode
@@ -253,7 +272,6 @@
   ("C-c n f" . org-roam-node-find)
   ("C-c n i" . org-roam-node-insert)
   :config
-  (helm-mode)
   (org-roam-db-autosync-mode)
   (add-to-list 'display-buffer-alist
 	       '("\\*org-roam\\*"
