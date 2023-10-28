@@ -8,3 +8,5 @@ org-roam.db
 .DS_Store
 .org-id-locations
 bookmarks
+.dap-breakpoints
+.lsp-session-v1

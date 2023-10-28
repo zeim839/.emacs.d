@@ -5,7 +5,7 @@
 
 ;; Match theme background color for smoother
 ;; startup transition.
-(add-to-list 'default-frame-alist '(background-color . "#212121"))
+;;(add-to-list 'default-frame-alist '(background-color . "#212121"))
 
 (defun ar/show-welcome-buffer ()
   "Show *Welcome* buffer."

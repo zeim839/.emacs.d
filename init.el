@@ -38,9 +38,10 @@
 (use-package flyspell
   :ensure t :defer t
   :hook
-  (markdown-mode . turn-on-flyspell)
+  (markdown-mode . flyspell-buffer)
   (prog-mode . flyspell-prog-mode)
   (c++-mode . flyspell-prog-mode)
+  (c-mode . flyspell-prog-mode)
   (emacs-lisp-mode . flyspell-prog-mode)
   (org-mode . turn-on-flyspell)
   :config
@@ -106,16 +107,21 @@
        `(whitespace-tab                    ((t (:foreground ,ws-color))))
        `(whitespace-trailing               ((t (:foreground ,ws-color))))))))
 
+(use-package doom-modeline
+  :ensure t
+  :custom
+  (doom-modeline-env-enable-go t)
+  (doom-modeline-window-width-limit 0.4)
+  (setq doom-modeline-minor-modes nil)
+  :init
+  (doom-modeline-mode 1)
+  (use-package minions
+    :ensure t
+    :init (minions-mode 1)))
+
 (use-package menu-bar
   ;; No need to confirm killing buffers.
   :bind ("C-x k" . kill-this-buffer))
-
-(use-package zone
-  :ensure t
-  :commands (zone)
-  :custom
-  (zone-programs [zone-pgm-putz-with-case zone-pgm-explode])
-  (zone-timer (run-with-idle-timer 120 t 'zone)))
 
 (use-package linum-relative
   :ensure t :defer t
@@ -123,6 +129,7 @@
   :custom
   (linum-relative-current-symbol "")
   :hook
+  (yaml-mode . linum-relative-mode)
   (prog-mode . linum-relative-mode)
   (markdown-mode . linum-relative-mode)
   (c++-mode . linum-relative-mode)
@@ -137,16 +144,26 @@
   (vterm-mode . hide-mode-line-mode)
   (treemacs-mode . hide-mode-line-mode))
 
-(use-package vertico
-  :ensure t
-  :init
-  (vertico-mode))
+(use-package vertico :ensure t :init (vertico-mode))
 
 ;; Emacs font
-(set-face-attribute 'default nil :font "Iosevka Comfy 18")
+(set-face-attribute 'default nil :font "JetBrains Mono" :height 165)
 
-(use-package ef-themes
-  :ensure t :config (ef-themes--load-theme 'ef-dark))
+(use-package doom-themes
+  :ensure t
+  :custom
+  (doom-themes-enable-bold t)
+  (doom-themes-enable-italic t)
+  (doom-themes-treemacs-theme "doom-atom")
+  :config
+  ;; (load-theme 'doom-vibrant t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config)
+  (use-package all-the-icons :ensure t))
+
+(use-package ef-themes :ensure t
+  :init (load-theme 'ef-maris-dark :no-confirm))
 
 ;; Which-key suggests commands given some keybinding.
 (use-package which-key
@@ -170,18 +187,19 @@
   (multi-compile-alist
    `((go-mode .
 	      (("go-test-global" "go test ./..."
-		(locate-dominating-file buffer-file-name ".git"))
+		(locate-dominating-file buffer-file-name "go.mod"))
 	       ("go-test-local" "go test")
 	       ("go-build-local" "go build -v")
+	       ("go-run" "go run %file-name")
 	       ("go-build-global" "go build -v"
-                (locate-dominating-file buffer-file-name ".git"))
+                (locate-dominating-file buffer-file-name "go.mod"))
 	       ("go-static-check" "~/go/bin/staticcheck ./..."
-		(locate-dominating-file buffer-file-name ".git"))
+		(locate-dominating-file buffer-file-name "go.mod"))
 	       ("go-vet-local" "go vet")
 	       ("go-vet-global" "go vet ./..."
-		(locate-dominating-file buffer-file-name ".git"))
+		(locate-dominating-file buffer-file-name "go.mod"))
 	       ("go-test-lint" "~/go/bin/golint ./..."
-		(locate-dominating-file buffer-file-name ".git"))
+		(locate-dominating-file buffer-file-name "go.mod"))
 	       ("go-build-and-run" "go build -v && echo 'build finish' && eval ./${PWD##*/}"
                 (multi-compile-locate-file-dir ".git"))))
      (js2-mode .
@@ -194,6 +212,8 @@
 		("js-lint" "npm run lint"
 		 (locate-dominating-file buffer-file-name ".git"))
 		("js-fix" "npm run fix"
+		 (locate-dominating-file buffer-file-name ".git"))
+		("docusaurus-deploy" "GIT_USER=zeim839 npm run deploy"
 		 (locate-dominating-file buffer-file-name ".git"))))
      (c-mode .
 	     (("sh-configure" "./configure"
@@ -202,8 +222,18 @@
 	       (locate-dominating-file buffer-file-name "Makefile"))
 	      ("make-install" "make install"
 	       (locate-dominating-file buffer-file-name "Makefile"))
-	      ("sh-transfer" "sshpass -p reptilian scp -P 3022 -r /Volumes/LINUX/reptilian-kernel reptilian@localhost:/usr/rep/src/reptilian-kernel"
-	       (locate-dominating-file buffer-file-name ".gitignore")))))))
+	      ("sh-transfer" "sshpass -p reptilian scp -P 3022 -r %dir reptilian@localhost:/home/reptilian/"
+	       (locate-dominating-file buffer-file-name "Makefile"))))
+     (c++-mode .
+	       (("sh-configure" "./configure"
+		 (locate-dominating-file buffer-file-name "Makefile"))
+		("make-default" "make"
+		 (locate-dominating-file buffer-file-name "Makefile"))
+		("make-install" "make install"
+		 (locate-dominating-file buffer-file-name "Makefile"))
+		("sh-transfer" "sshpass -p reptilian scp -P 3022 -r %dir reptilian@localhost:/home/reptilian/"
+	       (locate-dominating-file buffer-file-name "Makefile"))))
+     (yaml-mode . (("kubectl-apply" "kubectl apply -f %file-name"))))))
 
 ;; C++
 (use-package c++-mode
@@ -240,7 +270,6 @@
    'auto-mode-alist '("\\.js\\'" .
 		      (lambda () (linum-relative-mode) (js2-mode)))))
 
-;; Docker files.
 (use-package dockerfile-mode
   :ensure t :defer t)
 
@@ -335,17 +364,8 @@
   (treemacs-width 27)
   (treemacs-show-hidden-files t)
   (treemacs-is-never-other-window t)
-  (treemacs-sorting 'alphabetic-case-insensitive-asc)
-  (treemacs-default-visit-action 'treemacs-visit-node-close-treemacs)
-  :config
-  (treemacs-indent-guide-mode)
-  (set-face-attribute 'treemacs-directory-face nil :font "Iosevka Comfy 18")
-  (set-face-attribute 'treemacs-directory-collapsed-face nil :font "Iosevka Comfy 18")
-  (set-face-attribute 'treemacs-file-face nil :font "Iosevka Comfy 18")
-  (set-face-attribute 'treemacs-root-face nil :font "Iosevka Comfy 18" :underline nil))
-
-;; Perhaps later...
-;;(use-package doom-themes :ensure t)
+  (treemacs-sorting 'alphabetic-asc)
+  (treemacs-default-visit-action 'treemacs-visit-node-close-treemacs))
 
 (use-package markdown-mode :ensure t :defer t)
 (use-package yaml-mode :ensure t :defer t)
@@ -354,12 +374,12 @@
   :ensure t :defer t
   :commands (magit))
 
-(use-package projectile
+(use-package lsp-mode
   :ensure t :defer t
-  :custom
-  (projectile-cache-file "/Users/mz/.emacs.d/.cache/projectile.cache"))
-
-;; Controls
-(global-set-key (kbd "C-<tab>") 'tab-next)
-(global-set-key (kbd "C-S-<tab>") 'tab-previous)
-(global-set-key (kbd "M-n") 'tab-bar-close-tab)
+  :hook
+  (c-mode . lsp-mode)
+  (js2-mode . lsp-mode)
+  (c++-mode . lsp-mode)
+  :commands (lsp-mode)
+  :config (use-package lsp-ui :ensure t :defer t
+    :config (lsp-ui-sideline-toggle-symbols-info)))
