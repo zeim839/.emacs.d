@@ -8,12 +8,14 @@
 
 ;; C++
 (use-package c++-mode
+  :defer t
   :hook
   (c++-mode . flyspell-prog-mode)
   (c++-mode . auto-fill-mode))
 
 ;; C
 (use-package c-mode
+  :defer t
   :custom
   (c-default-style '((other . "linux")))
   :hook
@@ -40,6 +42,23 @@
   (add-to-list
    'auto-mode-alist '("\\.js\\'" .
 		      (lambda () (linum-relative-mode) (js2-mode)))))
+
+
+(use-package webshit
+  :defer t
+  :commands (typescript-ts-mode tsx-ts-mode js-mode js-jsx-mode js-json-mode)
+  :custom (treesit-extra-load-path '("/usr/local/lib"))
+  :init
+  (add-to-list
+   'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+  (add-to-list
+   'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+  (add-to-list
+   'auto-mode-alist '("\\.js\\'" . js-mode))
+  (add-to-list
+   'auto-mode-alist '("\\.jsx\\'" . js-jsx-mode))
+  (add-to-list
+   'auto-mode-alist '("\\.json\\'" . js-json-mode)))
 
 (use-package dockerfile-mode
   :ensure t :defer t)
@@ -75,7 +94,7 @@
   (c++-mode . lsp-mode)
   :commands (lsp-mode)
   :config (use-package lsp-ui :ensure t :defer t
-    :config (lsp-ui-sideline-toggle-symbols-info)))
+	    :config (lsp-ui-sideline-toggle-symbols-info)))
 
 ;; Compilation macros.
 (use-package multi-compile
@@ -101,19 +120,21 @@
 		(locate-dominating-file buffer-file-name "go.mod"))
 	       ("go-build-and-run" "go build -v && echo 'build finish' && eval ./${PWD##*/}"
                 (multi-compile-locate-file-dir ".git"))))
-     (js2-mode .
-	       (("js-start" "npm start"
-		 (locate-dominating-file buffer-file-name ".git"))
-		("js-test" "npm run test"
-		 (locate-dominating-file buffer-file-name ".git"))
-		("js-build" "npm run build"
-		 (locate-dominating-file buffer-file-name ".git"))
-		("js-lint" "npm run lint"
-		 (locate-dominating-file buffer-file-name ".git"))
-		("js-fix" "npm run fix"
-		 (locate-dominating-file buffer-file-name ".git"))
-		("docusaurus-deploy" "GIT_USER=zeim839 npm run deploy"
-		 (locate-dominating-file buffer-file-name ".git"))))
+     (tsx-ts-mode .
+		  (("js-start" "npm start"
+		    (locate-dominating-file buffer-file-name ".git"))
+		   ("js-dev" "npm run dev"
+		    (locate-dominating-file buffer-file-name ".gitignore"))
+		   ("js-test" "npm run test"
+		    (locate-dominating-file buffer-file-name ".git"))
+		   ("js-build" "npm run build"
+		    (locate-dominating-file buffer-file-name ".git"))
+		   ("js-lint" "npm run lint"
+		    (locate-dominating-file buffer-file-name ".git"))
+		   ("js-fix" "npm run fix"
+		    (locate-dominating-file buffer-file-name ".git"))
+		   ("docusaurus-deploy" "GIT_USER=zeim839 npm run deploy"
+		    (locate-dominating-file buffer-file-name ".git"))))
      (c-mode .
 	     (("sh-configure" "./configure"
 	       (locate-dominating-file buffer-file-name "configure"))
@@ -131,5 +152,5 @@
 		("make-install" "make install"
 		 (locate-dominating-file buffer-file-name "Makefile"))
 		("sh-transfer" "sshpass -p reptilian scp -P 3022 -r %dir reptilian@localhost:/home/reptilian/"
-	       (locate-dominating-file buffer-file-name "Makefile"))))
+		 (locate-dominating-file buffer-file-name "Makefile"))))
      (yaml-mode . (("kubectl-apply" "kubectl apply -f %file-name"))))))
