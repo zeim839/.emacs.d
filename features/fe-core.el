@@ -26,7 +26,7 @@
 
 ;; Company "comp(lete)-any(thing)" auto-completions.
 (use-package company
-  :ensure t
+  :ensure t :defer t
   :hook (after-init . global-company-mode)
   :commands (company-mode global-company-mode)
   :custom
