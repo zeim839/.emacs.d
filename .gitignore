@@ -13,3 +13,4 @@ bookmarks
 .persistent-scratch
 custom.el
 local
+tramp
