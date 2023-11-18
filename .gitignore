@@ -10,3 +10,6 @@ org-roam.db
 bookmarks
 .dap-breakpoints
 .lsp-session-v1
+.persistent-scratch
+custom.el
+local
