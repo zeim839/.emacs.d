@@ -32,22 +32,12 @@
 	 'auto-mode-alist '("\\.go\\'" . go-mode)))
 
 ;; Javascript, JSX, TypeScript
-(use-package js2-mode
-  :ensure t :defer t
-  :custom
-  (js2-mode-show-parse-errors nil)
-  (js2-mode-show-strict-warnings nil)
-  (js-indent-level 2)
-  :init
-  (add-to-list
-   'auto-mode-alist '("\\.js\\'" .
-		      (lambda () (linum-relative-mode) (js2-mode)))))
-
-
 (use-package webshit
   :defer t
   :commands (typescript-ts-mode tsx-ts-mode js-mode js-jsx-mode js-json-mode)
-  :custom (treesit-extra-load-path '("/usr/local/lib"))
+  :custom
+  (treesit-extra-load-path '("/usr/local/lib"))
+  (typescript-indent-level 2)
   :init
   (add-to-list
    'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
@@ -92,9 +82,21 @@
   (c-mode . lsp-mode)
   (js2-mode . lsp-mode)
   (c++-mode . lsp-mode)
+  (typescript-ts-mode . lsp-mode)
+  (tsx-ts-mode . lsp-mode)
+  (js-mode . lsp-mode)
+  (js-jsx-mode . lsp-mode)
+  (js-json-mode . lsp-mode)
   :commands (lsp-mode)
   :config (use-package lsp-ui :ensure t :defer t
 	    :config (lsp-ui-sideline-toggle-symbols-info)))
+
+(use-package dap-mode
+  :ensure t :defer t
+  :config
+  ;; Set up Node.js debugging
+  (require 'dap-node)
+  (dap-node-setup))
 
 ;; Compilation macros.
 (use-package multi-compile
@@ -121,17 +123,17 @@
 	       ("go-build-and-run" "go build -v && echo 'build finish' && eval ./${PWD##*/}"
                 (multi-compile-locate-file-dir ".git"))))
      (tsx-ts-mode .
-		  (("js-start" "npm start"
+		  (("npm-start" "npm start"
 		    (locate-dominating-file buffer-file-name ".git"))
-		   ("js-dev" "npm run dev"
+		   ("npm-dev" "npm run dev"
 		    (locate-dominating-file buffer-file-name ".gitignore"))
-		   ("js-test" "npm run test"
+		   ("npm-test" "npm run test"
 		    (locate-dominating-file buffer-file-name ".git"))
-		   ("js-build" "npm run build"
+		   ("npm-build" "npm run build"
 		    (locate-dominating-file buffer-file-name ".git"))
-		   ("js-lint" "npm run lint"
+		   ("npm-lint" "npm run lint"
 		    (locate-dominating-file buffer-file-name ".git"))
-		   ("js-fix" "npm run fix"
+		   ("npm-fix" "npm run fix"
 		    (locate-dominating-file buffer-file-name ".git"))
 		   ("docusaurus-deploy" "GIT_USER=zeim839 npm run deploy"
 		    (locate-dominating-file buffer-file-name ".git"))))
