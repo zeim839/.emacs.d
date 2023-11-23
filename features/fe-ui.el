@@ -57,20 +57,6 @@
   ;; No need to confirm killing buffers.
   :bind ("C-x k" . kill-this-buffer))
 
-(use-package linum-relative
-  :ensure t :defer t
-  :commands (linum-relative-mode)
-  :custom
-  (linum-relative-current-symbol "")
-  :hook
-  (yaml-mode . linum-relative-mode)
-  (prog-mode . linum-relative-mode)
-  (markdown-mode . linum-relative-mode)
-  (c++-mode . linum-relative-mode)
-  (treemacs-mode . linum-relative-mode)
-  (emacs-lisp-mode . linum-relative-mode)
-  (org-mode . linum-relative-mode))
-
 (use-package hide-mode-line
   :ensure t :defer t
   :commands (hide-mode-line-mode)

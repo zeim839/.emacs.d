@@ -4,7 +4,7 @@
 
 ;; Which-key suggests commands given some keybinding.
 (use-package which-key
-  :ensure t :defer t
+  :ensure t :defer nil
   :hook (after-init . which-key-mode)
   :config
   (which-key-setup-minibuffer)
@@ -44,3 +44,18 @@
               ("C-d" . company-show-doc-buffer)
               ("C-n" . company-select-next)
               ("C-p" . company-select-previous)))
+
+(use-package linum-relative
+  :ensure t :defer t
+  :commands (linum-relative-mode)
+  :custom
+  (linum-relative-current-symbol "")
+  (linum-relative-backend 'display-line-numbers-mode)
+  :hook
+  (yaml-mode . linum-relative-mode)
+  (prog-mode . linum-relative-mode)
+  (markdown-mode . linum-relative-mode)
+  (c++-mode . linum-relative-mode)
+  (treemacs-mode . linum-relative-mode)
+  (emacs-lisp-mode . linum-relative-mode)
+  (org-mode . linum-relative-mode))
