@@ -59,3 +59,6 @@
   (treemacs-mode . linum-relative-mode)
   (emacs-lisp-mode . linum-relative-mode)
   (org-mode . linum-relative-mode))
+
+;; Fixes an issue in org-mode where code blocks had mixed tabs and spaces.
+(setq-default indent-tabs-mode nil)

@@ -8,7 +8,7 @@
   (load-file "~/.emacs.d/agenda.el")
   :custom
   (org-todo-keywords
-   (quote ((sequence "TODO" "LATER" "STARTED" "DONE")
+   (quote ((sequence "TODO" "NEXT" "LATER" "STARTED" "DONE")
 	   (sequence "MEETING" "FINISHED"))))
 
   (org-image-actual-width nil)
@@ -34,6 +34,16 @@
   (add-hook 'org-mode-hook
 	    (lambda () (visual-line-mode) (turn-on-flyspell))))
 
+;; org-babel lets you evaluate org code blocks.
+(use-package org-babel
+  :defer t
+  :init
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)))
+  :custom
+  (org-babel-python-command "python3"))
+
 ;; Org-roam
 (use-package org-roam
   :ensure t :defer t
@@ -56,6 +66,10 @@
 
   :bind
   ("C-c n l" . org-roam-buffer-toggle)
+  ("C-c n c" . org-roam-capture)
+  ("C-c n d" . org-id-get-create)
+  ("C-c n a" . org-roam-alias-add)
+  ("C-c n r" . org-roam-ref-add)
   ("C-c n f" . org-roam-node-find)
   ("C-c n i" . org-roam-node-insert)
   :config
