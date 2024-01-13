@@ -3,7 +3,7 @@
 (org-clock-persistence-insinuate)
 
 ;; Agenda files
-(setq org-agenda-files (quote ("~/OneDrive/Documents/org/20221209105326-agenda_org.org")))
+(setq org-agenda-files (quote ("~/.emacs.d/agenda.org")))
 
 ;; Do not dim blocked tasks
 (setq org-agenda-dim-blocked-tasks nil)

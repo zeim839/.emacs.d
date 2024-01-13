@@ -2,12 +2,9 @@
 ;; Do not load outdated byte code files.
 (setq load-prefer-newer t)
 
-;; Default was too low.
+;; Defaults were too low.
 ;; Increase for better lsp performance.
 (setq read-process-output-max (* 3 1024 1024)) ;; 3mb
-
-;; Default of 800 was too low.
-;; Avoid Lisp nesting exceeding in swift-mode.
 (setq max-lisp-eval-depth 10000)
 (setq max-specpdl-size 10000)
 
