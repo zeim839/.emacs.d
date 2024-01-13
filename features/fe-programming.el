@@ -6,6 +6,12 @@
   :commands (vterm)
   :bind ("C-c v" . vterm))
 
+;; Python
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :validate-custom
+  (python-indent-guess-indent-offset-verbose nil))
+
 ;; C++
 (use-package c++-mode
   :defer t
@@ -25,30 +31,44 @@
 ;; Golang
 (use-package go-mode
   :ensure t :defer t
-  :commands (go-mode)
-  ;; For some reason go-mode doesnt automatically
-  ;; load for all .go files.
-  :init (add-to-list
-	 'auto-mode-alist '("\\.go\\'" . go-mode)))
+  :mode ("\\.go\\'" . go-mode)
+  :commands (go-mode))
 
-;; Javascript, JSX, TypeScript
-(use-package webshit
+;; Typescript
+(use-package typescript-ts-mode
   :defer t
-  :commands (typescript-ts-mode tsx-ts-mode js-mode js-jsx-mode js-json-mode)
+  :mode "\\.ts\\'"
   :custom
   (treesit-extra-load-path '("/usr/local/lib"))
-  (typescript-indent-level 2)
-  :init
-  (add-to-list
-   'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-  (add-to-list
-   'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-  (add-to-list
-   'auto-mode-alist '("\\.js\\'" . js-mode))
-  (add-to-list
-   'auto-mode-alist '("\\.jsx\\'" . js-jsx-mode))
-  (add-to-list
-   'auto-mode-alist '("\\.json\\'" . js-json-mode)))
+  (typescript-indent-level 2))
+
+(use-package tsx-ts-mode
+  :defer t
+  :mode "\\.tsx\\'"
+  :custom
+  (treesit-extra-load-path '("/usr/local/lib"))
+  (typescript-indent-level 2))
+
+;; Javascript
+(use-package js-mode
+  :defer t
+  :mode "\\.js\\'"
+  :custom
+  (treesit-extra-load-path '("/usr/local/lib"))
+  (js-indent-level 2))
+
+(use-package js-jsx-mode
+  :defer t
+  :mode "\\.jsx\\'"
+  :custom
+  (treesit-extra-load-path '("/usr/local/lib"))
+  (js-jsx-indent-level 2))
+
+(use-package js-json-mode
+  :defer t
+  :mode "\\.json\\'"
+  :custom
+  (treesit-extra-load-path '("/usr/local/lib")))
 
 (use-package dockerfile-mode
   :ensure t :defer t)
@@ -96,6 +116,8 @@
   :config
   ;; Set up Node.js debugging
   (require 'dap-node)
+  (require 'dap-lldb)
+  (require 'dap-go)
   (dap-node-setup))
 
 ;; Compilation macros.
@@ -151,8 +173,11 @@
 		 (locate-dominating-file buffer-file-name "Makefile"))
 		("make-default" "make"
 		 (locate-dominating-file buffer-file-name "Makefile"))
+		("make-debug" "make debug"
+		 (locate-dominating-file buffer-file-name "Makefile"))
 		("make-install" "make install"
 		 (locate-dominating-file buffer-file-name "Makefile"))
 		("sh-transfer" "sshpass -p reptilian scp -P 3022 -r %dir reptilian@localhost:/home/reptilian/"
 		 (locate-dominating-file buffer-file-name "Makefile"))))
-     (yaml-mode . (("kubectl-apply" "kubectl apply -f %file-name"))))))
+     (yaml-mode . (("kubectl-apply" "kubectl apply -f %file-name")))
+     (python-mode . (("python3" "python3 %file-name"))))))
