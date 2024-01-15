@@ -112,13 +112,12 @@
   ;; Additional local load paths.
   (add-to-list 'load-path "~/.emacs.d/local")
 
-  ;; Need these loaded ASAP (many subsequent libraries depend on them).
+  ;; Need these loaded ASAP.
   (ar/load "~/.emacs.d/features/fe-package-extensions.el")
   (ar/load "~/.emacs.d/features/fe-libs.el")
   (ar/load "~/.emacs.d/features/fe-mac.el")
   (ar/load "~/.emacs.d/features/fe-linux.el")
   (ar/load "~/.emacs.d/features/fe-ui.el")
-  (ar/load "~/.emacs.d/features/fe-scratch.el")
 
   ;; Load non-core features.
   (load "~/.emacs.d/features/fe-features.el" nil t))

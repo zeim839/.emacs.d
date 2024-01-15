@@ -10,3 +10,4 @@
 (ar/init--idle-load "~/.emacs.d/features/fe-org")
 (ar/init--idle-load "~/.emacs.d/features/fe-programming")
 (ar/init--idle-load "~/.emacs.d/features/fe-spelling")
+(ar/init--idle-load "~/.emacs.d/features/fe-scratch")
