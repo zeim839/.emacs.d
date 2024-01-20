@@ -34,13 +34,22 @@
   (add-hook 'org-mode-hook
 	    (lambda () (visual-line-mode) (turn-on-flyspell))))
 
+;; Execute python on jupyter kernels.
+(use-package jupyter
+  :ensure t :defer t
+  :init
+  ;; Use python formatting for "jupyter" source blocks.
+  (defalias 'jupyter-mode 'python-mode))
+
 ;; org-babel lets you evaluate org code blocks.
 (use-package org-babel
   :defer t
   :init
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((python . t)))
+   '((emacs-lisp . t)
+     (python . t)
+     (jupyter . t)))
   :custom
   (org-babel-python-command "python3"))
 
