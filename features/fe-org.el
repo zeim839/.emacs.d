@@ -12,7 +12,7 @@
 	   (sequence "MEETING" "FINISHED"))))
 
   (org-image-actual-width nil)
-
+  (org-startup-with-inline-images t)
   :commands (org-agenda)
   :bind ("C-c a" . org-agenda)
   :hook
