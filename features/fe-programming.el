@@ -108,8 +108,10 @@
   (js-jsx-mode . lsp-mode)
   (js-json-mode . lsp-mode)
   :commands (lsp-mode)
-  :config (use-package lsp-ui :ensure t :defer t
-	    :config (lsp-ui-sideline-toggle-symbols-info)))
+  :config
+  (use-package lsp-ui :ensure t :defer t
+    :config (lsp-ui-sideline-toggle-symbols-info))
+  (use-package lsp-treemacs :ensure t :defer t))
 
 (use-package dap-mode
   :ensure t :defer t
