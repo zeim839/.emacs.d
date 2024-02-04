@@ -37,6 +37,8 @@
 ;; Execute python on jupyter kernels.
 (use-package jupyter
   :ensure t :defer t
+  :custom
+  (jupyter-org-resource-directory "~/.emacs.d/.cache/ob-jupyter/")
   :init
   ;; Use python formatting for "jupyter" source blocks.
   (defalias 'jupyter-mode 'python-mode))
@@ -45,6 +47,7 @@
 (use-package org-babel
   :defer t
   :init
+  ;; Jupyter must remain last.
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
