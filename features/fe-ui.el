@@ -41,18 +41,6 @@
        `(whitespace-tab                    ((t (:foreground ,ws-color))))
        `(whitespace-trailing               ((t (:foreground ,ws-color))))))))
 
-(use-package doom-modeline
-  :ensure t
-  :custom
-  (doom-modeline-env-enable-go t)
-  (doom-modeline-window-width-limit 0.4)
-  (setq doom-modeline-minor-modes nil)
-  :init
-  (doom-modeline-mode 1)
-  (use-package minions
-    :ensure t
-    :init (minions-mode 1)))
-
 (use-package menu-bar
   ;; No need to confirm killing buffers.
   :bind ("C-x k" . kill-current-buffer))
@@ -63,19 +51,6 @@
   :hook
   (vterm-mode . hide-mode-line-mode)
   (treemacs-mode . hide-mode-line-mode))
-
-(use-package doom-themes
-  :ensure t
-  :custom
-  (doom-themes-enable-bold t)
-  (doom-themes-enable-italic t)
-  (doom-themes-treemacs-theme "doom-atom")
-  :config
-  ;; (load-theme 'doom-vibrant t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config)
-  (use-package all-the-icons :ensure t))
 
 (use-package ef-themes :ensure t
   :init (load-theme 'ef-maris-dark :no-confirm))
