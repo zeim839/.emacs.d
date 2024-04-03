@@ -17,14 +17,6 @@
 ;; https://github.com/hlissner/doom-emacs/blob/58af4aef56469f3f495129b4e7d947553f420fca/core/core.el#L194
 (setq initial-major-mode 'fundamental-mode)
 
-;; https://github.com/hlissner/doom-emacs/blob/58af4aef56469f3f495129b4e7d947553f420fca/core/core.el#L358
-(unless (daemonp)
-  (advice-add #'tty-run-terminal-initialization :override #'ignore)
-  (add-hook 'window-setup-hook
-            (defun doom-init-tty-h ()
-              (advice-remove #'tty-run-terminal-initialization #'ignore)
-              (tty-run-terminal-initialization (selected-frame) nil t))))
-
 (require 'package)
 
 ;; Don't auto-initialize.
