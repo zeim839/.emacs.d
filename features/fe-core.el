@@ -10,20 +10,6 @@
   (which-key-setup-minibuffer)
   (which-key-mode))
 
-;; Treemacs file browser.
-(use-package treemacs
-  :ensure t :defer t
-  :commands (treemacs treemacs-switch-workspace)
-  :bind
-  ("M-o" . treemacs)
-  ("C-c o" . treemacs-switch-workspace)
-  :custom
-  (treemacs-width 27)
-  (treemacs-show-hidden-files t)
-  (treemacs-is-never-other-window t)
-  (treemacs-sorting 'alphabetic-asc)
-  (treemacs-default-visit-action 'treemacs-visit-node-close-treemacs))
-
 ;; Company "comp(lete)-any(thing)" auto-completions.
 (use-package company
   :ensure t :defer t
