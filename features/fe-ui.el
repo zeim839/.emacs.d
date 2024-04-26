@@ -45,12 +45,5 @@
   ;; No need to confirm killing buffers.
   :bind ("C-x k" . kill-current-buffer))
 
-(use-package hide-mode-line
-  :ensure t :defer t
-  :commands (hide-mode-line-mode)
-  :hook
-  (vterm-mode . hide-mode-line-mode)
-  (treemacs-mode . hide-mode-line-mode))
-
 (use-package ef-themes :ensure t
   :init (load-theme 'ef-maris-dark :no-confirm))
