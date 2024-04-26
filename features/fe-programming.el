@@ -9,7 +9,7 @@
 ;; Python
 (use-package python
   :mode ("\\.py\\'" . python-mode)
-  :validate-custom
+  :custom
   (python-indent-guess-indent-offset-verbose nil))
 
 ;; C++
