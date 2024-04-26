@@ -1,4 +1,5 @@
 ;; -*- lexical-binding: t; -*-
+
 ;; Do not load outdated byte code files.
 (setq load-prefer-newer t)
 
@@ -8,13 +9,8 @@
 (setq max-lisp-eval-depth 10000)
 (setq max-specpdl-size 10000)
 
-;; https://github.com/hlissner/doom-emacs/blob/58af4aef56469f3f495129b4e7d947553f420fca/core/core.el#L184
 (setq auto-mode-case-fold nil)
-
-;; https://github.com/hlissner/doom-emacs/blob/58af4aef56469f3f495129b4e7d947553f420fca/core/core.el#L167
 (setq ad-redefinition-action 'accept)
-
-;; https://github.com/hlissner/doom-emacs/blob/58af4aef56469f3f495129b4e7d947553f420fca/core/core.el#L194
 (setq initial-major-mode 'fundamental-mode)
 
 (require 'package)
@@ -78,13 +74,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Now kick off non-essential loading ;;;;
 
-(defun ar/load (library)
+(defun mz/load (library)
   (let ((now (current-time))
         (force-load-messages))
     (load library nil 'nomessage)
     (message nil)))
 
-(defun ar/load-non-core-init ()
+(defun mz/init--idle-load (library)
+  (run-with-idle-timer 0.3 nil (lambda () (mz/load library))))
+
+(defun mz/load-non-core-init ()
   "Load non-core initialisation."
 
   ;; Undo GC values post init.el.
@@ -95,25 +94,29 @@
   ;; Set to 't to view when collection happens.
   (setq garbage-collection-messages nil)
 
-  ;; Done loading core init.el. Announce it and let the heavy loading begin.
-  (message "Emacs ready in %s with %d garbage collections."
-           (format "%.2f seconds" (float-time
-                                   (time-subtract after-init-time before-init-time)))
-           gcs-done)
-
   ;; Additional local load paths.
   (add-to-list 'load-path "~/.emacs.d/local")
 
   ;; Need these loaded ASAP.
-  (ar/load "~/.emacs.d/features/fe-package-extensions.el")
-  (ar/load "~/.emacs.d/features/fe-libs.el")
-  (ar/load "~/.emacs.d/features/fe-mac.el")
-  (ar/load "~/.emacs.d/features/fe-linux.el")
-  (ar/load "~/.emacs.d/features/fe-ui.el")
+  (mz/load "~/.emacs.d/features/fe-ui.el")
+  (mz/load "~/.emacs.d/features/fe-mac.el")
+  (mz/load "~/.emacs.d/features/fe-linux.el")
 
-  ;; Load non-core features.
-  (load "~/.emacs.d/features/fe-features.el" nil t))
+  ;; Announce initial loading time.
+  (message "Emacs ready in %s with %d garbage collections."
+           (format "%.2f seconds" (float-time
+                                   (time-subtract (current-time) before-init-time)))
+           gcs-done)
 
-(add-hook 'emacs-startup-hook #'ar/load-non-core-init)
+  ;; Non-essentials are loaded with a slight delay.
+  (mz/init--idle-load "~/.emacs.d/features/fe-core")
+  (mz/init--idle-load "~/.emacs.d/features/fe-modeline")
+  (mz/init--idle-load "~/.emacs.d/features/fe-org")
+  (mz/init--idle-load "~/.emacs.d/features/fe-programming")
+  (mz/init--idle-load "~/.emacs.d/features/fe-scratch")
+  (mz/init--idle-load "~/.emacs.d/features/fe-spelling"))
+
+(add-hook 'emacs-startup-hook #'mz/load-non-core-init)
 
 (provide 'init)
+(put 'narrow-to-region 'disabled nil)
