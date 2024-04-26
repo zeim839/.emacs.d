@@ -1,6 +1,23 @@
 ;;; -*- lexical-binding: t; -*-
 
-(use-package vertico :ensure t :init (vertico-mode))
+(use-package vertico
+  :ensure t
+  :init (vertico-mode))
+
+(use-package marginalia
+  :ensure t
+  :init (marginalia-mode))
+
+(use-package orderless :ensure t
+    :init
+    (setq completion-styles '(orderless basic)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package consult :ensure t
+  :bind
+  ("C-x b" . consult-buffer)
+  ("C-c g" . consult-grep))
 
 ;; Which-key suggests commands given some keybinding.
 (use-package which-key
@@ -13,7 +30,7 @@
 ;; Company "comp(lete)-any(thing)" auto-completions.
 (use-package company
   :ensure t :defer t
-  :hook (after-init . global-company-mode)
+  :init (global-company-mode)
   :commands (company-mode global-company-mode)
   :custom
   (company-minimum-prefix-length 1)
