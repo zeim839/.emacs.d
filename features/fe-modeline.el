@@ -29,13 +29,23 @@ package).")
   "Face for modeline indicators (e.g. see my `notmuch-indicator')."
   :group 'mz/modeline-faces)
 
-(defface mz/modeline-indicator-blue-bg
+(defface mz/modeline-indicator-red-bg
   '((default :inherit (bold mz/modeline-indicator-button))
     (((class color) (min-colors 88) (background light))
      :background "#0000aa" :foreground "white")
     (((class color) (min-colors 88) (background dark))
-     :background "#77aaff" :foreground "black")
+     :background "#bd1f30" :foreground "white")
     (t :background "blue" :foreground "black"))
+  "Face for modeline indicators with a background."
+  :group 'mz/modeline-faces)
+
+(defface mz/modeline-indicator-magenta-bg
+  '((default :inherit (bold mz/modeline-indicator-button))
+    (((class color) (min-colors 88) (background light))
+     :background "#0000aa" :foreground "white")
+    (((class color) (min-colors 88) (background dark))
+     :background "#ff7788" :foreground "black")
+    (t :background "#ff7788" :foreground "black"))
   "Face for modeline indicators with a background."
   :group 'mz/modeline-faces)
 
@@ -65,7 +75,7 @@ package).")
 (defvar-local mz/modeline-kbd-macro
     '(:eval
       (when (and (mode-line-window-selected-p) defining-kbd-macro)
-        (propertize " KMacro " 'face 'mz/modeline-indicator-blue-bg)))
+        (concat " " (propertize " KMacro " 'face 'mz/modeline-indicator-red-bg) " ")))
   "Mode line construct displaying `mode-line-defining-kbd-macro'.
 Specific to the current window's mode line.")
 
@@ -74,7 +84,7 @@ Specific to the current window's mode line.")
       (when (and (mode-line-window-selected-p)
                  (buffer-narrowed-p)
                  (not (derived-mode-p 'Info-mode 'help-mode 'special-mode 'message-mode)))
-        (propertize " Narrow " 'face 'mz/modeline-indicator-cyan-bg)))
+        (concat " " (propertize " Narrow " 'face 'mz/modeline-indicator-cyan-bg) " ")))
   "Mode line construct displaying if buffer is narrowed.")
 
 (defun mz/modeline-buffer-name ()
@@ -110,7 +120,7 @@ face.  Let other buffers have no face.")
                     ((derived-mode-p 'text-mode) "§")
                     ((derived-mode-p 'prog-mode) "λ")
                     ((derived-mode-p 'comint-mode) ">_")
-                    (t "◦"))))
+                    (t "📖"))))
     (propertize indicator 'face 'shadow)))
 
 (defun mz/modeline-major-mode-name ()
@@ -125,13 +135,13 @@ face.  Let other buffers have no face.")
 
 (defvar-local mz/modeline-major-mode
     '(:eval
-      (concat
-       (mz/modeline-major-mode-indicator)
-       " "
-       (propertize
-        (mz/modeline-major-mode-name)
-        'mouse-face 'mode-line-highlight
-        'help-echo (mz/modeline-major-mode-help-echo))))
+      (propertize
+       (concat
+        " " (mz/modeline-major-mode-indicator) " "
+        (mz/modeline-major-mode-name) " ")
+       'mouse-face 'mode-line-highlight
+       'help-echo (mz/modeline-major-mode-help-echo)
+       'face 'mz/modeline-indicator-magenta-bg))
   "Mode line construct for displaying major modes.")
 
 (defvar-local mz/modeline-misc-info
@@ -146,20 +156,31 @@ Specific to the current window's mode line.")
   :commands (hide-mode-line-mode)
   :hook (vterm-mode . hide-mode-line-mode))
 
+(set-face-attribute 'mode-line nil
+                    :background "#2f527b"
+                    :foreground "#ecf0ff"
+                    :box '(:line-width 1 :color "black")
+                    :overline nil
+                    :underline nil)
+
+(set-face-attribute 'mode-line-inactive nil
+                    :background "#1a2331"
+                    :foreground "#90a0dc"
+                    :box '(:line-width 1 :color "black")
+                    :overline nil
+                    :underline nil)
+
 (setq-default mode-line-format
               '(" "
-                (:eval mz/modeline-kbd-macro)
-                (:eval mz/modeline-narrow)
-                (:eval mz/modeline-buffer-identification)
-                " "
                 (:eval mz/modeline-major-mode)
-                (:eval
-                 (when (eq major-mode 'image-mode)
-                   ;; imagemagick alternative (also shows type and file size).
-                   ;; (process-lines "identify" "-format" "[%m %wx%h %b]" (buffer-file-name))
-                   (let ((size (image-size (create-image (buffer-file-name) nil nil :scale 1.0) t)))
-                     (list (format "[%dx%d]" (car size) (cdr size))))))
+                " "
+                (:eval mz/modeline-buffer-identification)
                 " "
                 (:eval mz/modeline-misc-info)
                 " "
+                mode-line-format-right-align
+                mode-line-position
+                (:eval mz/modeline-kbd-macro)
+                (:eval mz/modeline-narrow)
+                "  "
                 mode-line-end-spaces))
