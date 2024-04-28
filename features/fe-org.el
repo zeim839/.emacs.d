@@ -59,7 +59,6 @@
 ;; Org-roam
 (use-package org-roam
   :ensure t :defer t
-  :commands (org-roam-buffer-toggle org-roam-node-find org-roam-node-insert)
   :custom
   (org-roam-directory (file-truename org-roam-os-directory))
   (org-roam-capture-templates
@@ -71,10 +70,6 @@
       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org.gpg"
 			 "# -*- mode:org; epa-file-encrypt-to: (\"michael@zeipekkis.com\") -*-\n#+TITLE: ${title}\n#+CREATED: %U\n\n")
       :unnarrowed t)))
-
-  :init
-  (define-prefix-command 'prefix-org-roam)
-  (global-set-key (kbd "C-c n") 'prefix-org-roam)
 
   :bind
   ("C-c n l" . org-roam-buffer-toggle)
@@ -92,3 +87,14 @@
 		 (direction . right)
 		 (window-width . 0.53)
 		 (window-height . fit-window-to-buffer))))
+
+(use-package go-translate
+  :ensure t :defer t
+  :bind ("C-c t" . gts-do-translate)
+  :custom
+  (gts-translate-list '(("en" "el") ("el" "en")))
+  (gts-default-translator
+   (gts-translator
+    :picker (gts-prompt-picker)
+    :engines (list (gts-google-engine) (gts-google-rpc-engine))
+    :render (gts-buffer-render))))
