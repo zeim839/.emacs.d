@@ -45,5 +45,18 @@
   ;; No need to confirm killing buffers.
   :bind ("C-x k" . kill-current-buffer))
 
+(defcustom mz/themes-to-toggle '(ef-maris-dark modus-operandi-tinted)
+  "Specify two themes for the 'mz/toggle-themes' command.")
+
+(defun mz/toggle-themes()
+  "Toggle between the themes specified in 'mz/themes-to-toggle'"
+  (interactive)
+  (if (eq (car custom-enabled-themes) (car mz/themes-to-toggle))
+      (progn (disable-theme (car custom-enabled-themes))
+             (load-theme (nth 1 mz/themes-to-toggle)))
+    (progn (disable-theme (car custom-enabled-themes))
+               (load-theme (nth 0 mz/themes-to-toggle)))))
+
 (use-package ef-themes :ensure t
-  :init (load-theme 'ef-maris-dark :no-confirm))
+  :init (load-theme 'ef-maris-dark :no-confirm)
+  :bind ("C-`" . mz/toggle-themes))
