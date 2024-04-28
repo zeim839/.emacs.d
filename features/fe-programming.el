@@ -95,6 +95,9 @@
   :ensure t :defer t
   :commands (magit))
 
+(use-package compile
+  :bind ("C-c p" . compile))
+
 ;; Language server.
 (use-package lsp-mode
   :ensure t :defer t
@@ -109,6 +112,13 @@
   (js-json-mode . lsp-mode)
   :commands (lsp-mode)
   :config
-  (use-package lsp-ui :ensure t :defer t
-    :config (lsp-ui-sideline-toggle-symbols-info))
-  (use-package lsp-treemacs :ensure t :defer t))
+  (use-package lsp-ui
+    :ensure t :defer t
+    :config (lsp-ui-sideline-toggle-symbols-info)
+    :custom
+    (lsp-ui-sideline-show-hover t)
+    (lsp-ui-sideline-show-diagnostics t)
+    (lsp-ui-sideline-show-code-actions t)
+    (lsp-ui-sideline-delay 2))
+  (use-package lsp-treemacs
+    :ensure t :defer t))
