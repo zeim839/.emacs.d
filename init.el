@@ -109,6 +109,7 @@
            gcs-done)
 
   ;; Non-essentials are loaded with a slight delay.
+  (mz/init--idle-load "~/.emacs.d/features/fe-icons")
   (mz/init--idle-load "~/.emacs.d/features/fe-core")
   (mz/init--idle-load "~/.emacs.d/features/fe-modeline")
   (mz/init--idle-load "~/.emacs.d/features/fe-org")
