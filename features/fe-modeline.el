@@ -154,7 +154,9 @@ Specific to the current window's mode line.")
 ;; Do not display the modeline in specific buffers.
 (use-package hide-mode-line :ensure t :defer t
   :commands (hide-mode-line-mode)
-  :hook (vterm-mode . hide-mode-line-mode))
+  :hook
+  (vterm-mode . hide-mode-line-mode)
+  (jupyter-repl-mode . hide-mode-line-mode))
 
 (set-face-attribute 'mode-line nil
                     :background "#2f527b"
