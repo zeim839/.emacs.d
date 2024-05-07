@@ -111,6 +111,11 @@
   (js-jsx-mode . lsp-mode)
   (js-json-mode . lsp-mode)
   :commands (lsp-mode)
+  :custom
+  (lsp-javascript-update-imports-on-file-move-enabled "never")
+  (lsp-typescript-update-imports-on-file-move-enabled "never")
+  (lsp-typescript-surveys-enabled nil)
+  (lsp-completion-show-detail t)
   :config
   (use-package lsp-ui
     :ensure t :defer t
@@ -118,7 +123,7 @@
     :custom
     (lsp-ui-sideline-show-hover t)
     (lsp-ui-sideline-show-diagnostics t)
-    (lsp-ui-sideline-show-code-actions t)
+    (lsp-ui-sideline-show-code-actions nil)
     (lsp-ui-sideline-delay 2))
   (use-package lsp-treemacs
     :ensure t :defer t))

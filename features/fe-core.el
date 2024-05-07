@@ -66,3 +66,6 @@
 
 ;; Fixes an issue in org-mode where code blocks had mixed tabs and spaces.
 (setq-default indent-tabs-mode nil)
+
+;; Fixes an issue in LSP where imports would point to backup files.
+(setq backup-by-copying t)
