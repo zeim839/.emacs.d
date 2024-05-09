@@ -110,6 +110,7 @@
   (js-mode . lsp-mode)
   (js-jsx-mode . lsp-mode)
   (js-json-mode . lsp-mode)
+  (python-mode . lsp-mode)
   :commands (lsp-mode)
   :custom
   (lsp-javascript-update-imports-on-file-move-enabled "never")
