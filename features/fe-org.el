@@ -11,13 +11,20 @@
    (quote ((sequence "TODO" "NEXT" "LATER" "STARTED" "DONE")
 	   (sequence "MEETING" "FINISHED"))))
 
-  (org-image-actual-width nil)
+  (org-display-inline-images t)
+  (org-redisplay-inline-images t)
   (org-startup-with-inline-images t)
-  :commands (org-agenda)
+  (org-image-actual-width nil)
+  (org-startup-with-latex-preview t)
+  (org-startup-folded t)
+  (org-latex-preview-ltxpng-directory "~/.emacs.d/.cache/latex/")
+  (org-format-latex-options
+   '(:foreground default :background "Transparent" :scale 2.0 :html-foreground
+                 "Black" :html-background "Transparent" :html-scale 1.0
+                 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+
   :bind ("C-c a" . org-agenda)
-  :hook
-  (org-mode . visual-line-mode)
-  (org-mode . turn-on-flyspell)
+  :hook (org-mode . turn-on-flyspell)
   :config
   ;; Org-mode Encryption
   (use-package epa-file
@@ -29,10 +36,7 @@
   (font-lock-add-keywords
    'org-mode
    '(("^ +\\([-*]\\) "
-      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-  (add-hook 'org-mode-hook
-	    (lambda () (visual-line-mode) (turn-on-flyspell))))
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")))))))
 
 ;; Execute python on jupyter kernels.
 (use-package jupyter
