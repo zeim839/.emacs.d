@@ -48,24 +48,31 @@
               ("C-n" . company-select-next)
               ("C-p" . company-select-previous)))
 
-(use-package linum-relative
-  :ensure t :defer t
-  :commands (linum-relative-mode)
-  :custom
-  (linum-relative-current-symbol "")
-  (linum-relative-backend 'display-line-numbers-mode)
+(use-package display-line-numbers-mode
+  :defer t
+  :custom (display-line-numbers-type 'visual)
   :hook
-  (yaml-mode . linum-relative-mode)
-  (prog-mode . linum-relative-mode)
-  (markdown-mode . linum-relative-mode)
-  (c++-mode . linum-relative-mode)
-  (treemacs-mode . linum-relative-mode)
-  (emacs-lisp-mode . linum-relative-mode)
-  (org-mode . linum-relative-mode)
-  (dired . linum-relative-mode))
+  (yaml-mode . display-line-numbers-mode)
+  (prog-mode . display-line-numbers-mode)
+  (markdown-mode . display-line-numbers-mode)
+  (c++-mode . display-line-numbers-mode)
+  (treemacs-mode . display-line-numbers-mode)
+  (emacs-lisp-mode . display-line-numbers-mode)
+  (org-mode . display-line-numbers-mode)
+  (dired . display-line-numbers-mode))
 
 ;; Fixes an issue in org-mode where code blocks had mixed tabs and spaces.
 (setq-default indent-tabs-mode nil)
 
 ;; Fixes an issue in LSP where imports would point to backup files.
 (setq backup-by-copying t)
+
+;; No sound
+(setq visible-bell t)
+(setq ring-bell-function 'ignore)
+
+;; No Tooltips
+(tooltip-mode 0)
+
+;; No fringe but nice glyphs for truncated and wrapped lines
+(fringe-mode '(0 . 0))
