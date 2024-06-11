@@ -1,0 +1,12 @@
+* my emacs config
+
+#+ATTR_LATEX: :width 600px
+[[./ss1.png]]
+
+#+ATTR_LATEX: :width 600px
+[[./ss2.png]]
+
+** License
+[[LICENSE][GPL-3.0-or-later]]
+
+Copyright (C) 2024 Michail Zeipekki
