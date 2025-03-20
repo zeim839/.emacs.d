@@ -17,7 +17,7 @@
     ;; unzip dict.oxt
     ;; move to ~/Library/Spelling
     :custom
-    (ispell-program-name "hunspell")
+    (ispell-program-name "/usr/local/bin/hunspell")
     (ispell-local-dictionary "en_US")
     (ispell-local-dictionary-alist
      '(("american"

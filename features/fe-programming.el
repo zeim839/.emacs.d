@@ -28,10 +28,18 @@
   (c-mode . flyspell-prog-mode)
   (c-mode . auto-fill-mode))
 
+;; CUDA mode (derived from C++-mode)
+(use-package cuda-mode
+  :ensure t :defer t
+  :hook
+  (cuda-mode . flyspell-prog-mode)
+  (cuda-mode . auto-fill-mode))
+
 ;; Golang
 (use-package go-mode
   :ensure t :defer t
   :mode ("\\.go\\'" . go-mode)
+  :custom (gofmt-command "/usr/local/go/bin/gofmt")
   :commands (go-mode))
 
 ;; Typescript
@@ -117,6 +125,9 @@
   (lsp-typescript-update-imports-on-file-move-enabled "never")
   (lsp-typescript-surveys-enabled nil)
   (lsp-completion-show-detail t)
+  (lsp-clangd-binary-path "/usr/bin/clangd")
+  (lsp-clangd-version "15.0.0")
+  (lsp-clients-clangd-executable "/usr/bin/clangd")
   :config
   (use-package lsp-ui
     :ensure t :defer t
