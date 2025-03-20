@@ -29,15 +29,15 @@
                       (org-agenda-overriding-header "Today's agenda\n")))
           (agenda "" ((org-agenda-start-on-weekday nil)
                       (org-agenda-start-day "+1d")
-                      (org-agenda-span 30)
+                      (org-agenda-span 14)
                       (org-deadline-warning-days 0)
                       (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                      (org-agenda-overriding-header "\nNext 20 days\n")))
+                      (org-agenda-overriding-header "\nNext 14 days\n")))
           (agenda "" ((org-agenda-time-grid nil)
                       (org-agenda-start-on-weekday nil)
                       ;; We don't want to replicate the previous section's
                       ;; five days, so we start counting from the day after.
-                      (org-agenda-start-day "+6d")
+                      (org-agenda-start-day "+15d")
                       (org-agenda-span 90)
                       (org-agenda-show-all-dates nil)
                       (org-deadline-warning-days 0)
