@@ -19,6 +19,20 @@
   (c++-mode . flyspell-prog-mode)
   (c++-mode . auto-fill-mode))
 
+;; Haskell
+(use-package haskell-mode
+  :ensure t :defer t
+  :hook
+  (haskell-mode . flyspell-prog-mode)
+  (haskell-mode . auto-fill-mode))
+
+;; Rust
+(use-package rust-mode
+  :ensure t :defer t
+  :hook
+  (rust-mode . flyspell-prog-mode)
+  (rust-mode . auto-fill-mode))
+
 ;; C
 (use-package c-mode
   :defer t
@@ -119,6 +133,7 @@
   (js-jsx-mode . lsp-mode)
   (js-json-mode . lsp-mode)
   (python-mode . lsp-mode)
+  (rust-mode . lsp-mode)
   :commands (lsp-mode)
   :custom
   (lsp-javascript-update-imports-on-file-move-enabled "never")
