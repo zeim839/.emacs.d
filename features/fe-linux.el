@@ -4,7 +4,7 @@
 (use-package emacs
   :if (eq system-type 'gnu/linux)
   :config
-  (set-face-attribute 'default nil :font "JetBrains Mono" :height 115)
+  (set-face-attribute 'default nil :font "Iosevka Comfy" :height 195)
   (setq epg-gpg-program "/usr/bin/gpg")
   (use-package ef-themes :ensure t
     :init (load-theme 'ef-duo-dark :no-confirm)))

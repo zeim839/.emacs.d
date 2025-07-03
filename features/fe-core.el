@@ -61,10 +61,6 @@
   (org-mode . display-line-numbers-mode)
   (text-mode . display-line-numbers-mode))
 
-;;(use-package ace-jump-mode
-;;  :defer t :ensure t
-;;  :bind ("C-c SPC" . ace-jump-mode))
-
 ;; Fixes an issue in org-mode where code blocks had mixed tabs and spaces.
 (setq-default indent-tabs-mode nil)
 
